@@ -1,28 +1,35 @@
-# GitHub publish steps
+# GitHub access setup
 
-The first local commit already exists on branch `feature/core-loop-obstacle-stops`.
+Local repository state:
 
-To publish it to GitHub:
+- Branch: `feature/core-loop-obstacle-stops`
+- Remote: `git@github.com:GurkenzZ/Misha-Reading.git`
+- SSH key path: `.local-secrets/github_deploy_key`
+- Public key path: `.local-secrets/github_deploy_key.pub`
 
-1. Create an empty GitHub repository.
-2. Add it as `origin`:
+The private key is stored only locally and `.local-secrets/` is ignored by git.
 
-   ```powershell
-   git remote add origin https://github.com/<your-user>/<your-repo>.git
-   ```
+## One-time action required
 
-3. If you want the commit attributed to your GitHub account, amend the author before pushing:
+Add this public key to the GitHub repository as a deploy key with write access:
 
-   ```powershell
-   git config user.name "<your name>"
-   git config user.email "<your GitHub email or noreply email>"
-   git commit --amend --reset-author --no-edit
-   ```
+```text
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFx3HrPGdn92Bj5VAnKocIq8JjozMkaSl7wGhhm+ogh3 codex-misha-reading-deploy
+```
 
-4. Push the current branch:
+GitHub path:
 
-   ```powershell
-   git push -u origin feature/core-loop-obstacle-stops
-   ```
+1. Open `https://github.com/GurkenzZ/Misha-Reading/settings/keys`.
+2. Click `Add deploy key`.
+3. Title: `Codex Misha Reading`.
+4. Paste the public key above.
+5. Enable `Allow write access`.
+6. Click `Add key`.
 
-If GitHub asks for credentials, use GitHub's browser login flow or a personal access token instead of a password.
+After that, tell Codex that the deploy key is added. Codex can then run:
+
+```powershell
+git push -u origin feature/core-loop-obstacle-stops
+```
+
+Future commits and pushes should work without additional user action as long as the deploy key remains enabled.

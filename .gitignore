@@ -3,6 +3,7 @@ dist/
 .vite/
 .npm-cache/
 .codex/
+.local-secrets/
 *.local
 
 npm-debug.log*
