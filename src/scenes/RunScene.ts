@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 import { readBootstrapLevel } from "../content/bootstrapContent";
 import { RouteObstacleContent } from "../content/obstacleTypes";
+import { ObstacleOverlayScene, ObstacleSolvedPayload } from "./ObstacleOverlayScene";
 import { RunSessionRuntime } from "../state/runSession";
 import { ReadingRoute } from "../systems/readingRoute";
 import { RouteMotion } from "../systems/routeMotion";
@@ -18,6 +19,21 @@ export class RunScene extends Phaser.Scene {
   private session: RunSessionRuntime | null = null;
   private debugPanel: RunDebugPanel | null = null;
   private obstacles: readonly RouteObstacleContent[] = [];
+  private readonly handleObstacleSolved = (payload: ObstacleSolvedPayload): void => {
+    if (this.session === null) {
+      return;
+    }
+
+    const snapshot = this.session.getSnapshot();
+    const currentObstacle = this.obstacles[snapshot.obstacleIndex];
+
+    if (currentObstacle?.id !== payload.obstacleId) {
+      return;
+    }
+
+    this.session.resolveCurrentObstacle(snapshot.heroRouteX);
+    this.debugPanel?.update(this.session.getSnapshot());
+  };
 
   public constructor() {
     super("RunScene");
@@ -149,9 +165,12 @@ export class RunScene extends Phaser.Scene {
       return;
     }
 
+    const overlayScene = this.scene.get("ObstacleOverlayScene") as ObstacleOverlayScene;
+    overlayScene.events.once("obstacleSolved", this.handleObstacleSolved);
     this.scene.launch("ObstacleOverlayScene", {
-      obstacle,
-      obstacleIndex
+      obstacleId: obstacle.id,
+      targetLetter: obstacle.targetLetter,
+      candidateLetters: obstacle.candidateLetters
     });
     this.scene.bringToTop("ObstacleOverlayScene");
   }

@@ -7,6 +7,8 @@ export interface RouteObstacleContent {
   readonly kind: ObstacleKind;
   readonly title: string;
   readonly routeX: number;
+  readonly targetLetter: string;
+  readonly candidateLetters: readonly [string, string, string];
 }
 
 export function isRouteObstacleContentArray(value: unknown): value is readonly RouteObstacleContent[] {
@@ -23,7 +25,9 @@ function isRouteObstacleContent(value: unknown): value is RouteObstacleContent {
     isObstacleKind(value.kind) &&
     typeof value.title === "string" &&
     typeof value.routeX === "number" &&
-    Number.isFinite(value.routeX)
+    Number.isFinite(value.routeX) &&
+    typeof value.targetLetter === "string" &&
+    isThreeStringArray(value.candidateLetters)
   );
 }
 
@@ -33,4 +37,12 @@ function isObstacleKind(value: unknown): value is ObstacleKind {
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null;
+}
+
+function isThreeStringArray(value: unknown): value is readonly [string, string, string] {
+  return (
+    Array.isArray(value) &&
+    value.length === 3 &&
+    value.every((item) => typeof item === "string")
+  );
 }

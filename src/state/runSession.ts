@@ -44,6 +44,16 @@ export class RunSessionRuntime {
     this.state = "complete";
   }
 
+  public resolveCurrentObstacle(routeX: number): void {
+    if (this.state !== "blocked") {
+      return;
+    }
+
+    this.obstacleIndex += 1;
+    this.heroRouteX = routeX;
+    this.state = "running";
+  }
+
   public isRunning(): boolean {
     return this.state === "running";
   }
