@@ -6,20 +6,76 @@
   "words": ["\u043c\u0430", "\u0448\u0430", "\u043c\u0430\u0448\u0430"],
   "obstacles": [
     {
-      "id": "bootstrap-door",
+      "id": "bootstrap-door-1",
       "kind": "door",
       "title": "Door",
-      "routeX": 520,
+      "routeX": 180,
       "targetLetter": "\u043c",
       "candidateLetters": ["\u0430", "\u043c", "\u0448"]
     },
     {
-      "id": "bootstrap-slot",
+      "id": "bootstrap-mechanism-1",
+      "kind": "mechanism",
+      "title": "Gear",
+      "routeX": 260,
+      "targetLetter": "\u0430",
+      "candidateLetters": ["\u043c", "\u0448", "\u0430"]
+    },
+    {
+      "id": "bootstrap-bridge-1",
+      "kind": "bridge",
+      "title": "Bridge",
+      "routeX": 340,
+      "targetLetter": "\u0448",
+      "candidateLetters": ["\u0448", "\u043c", "\u0430"]
+    },
+    {
+      "id": "bootstrap-slot-1",
       "kind": "slot",
-      "title": "Letter slot",
-      "routeX": 760,
+      "title": "Slot",
+      "routeX": 430,
       "targetLetter": "\u0430",
       "candidateLetters": ["\u0448", "\u0430", "\u043c"]
+    },
+    {
+      "id": "bootstrap-door-2",
+      "kind": "door",
+      "title": "Door",
+      "routeX": 520,
+      "targetLetter": "\u043c",
+      "candidateLetters": ["\u043c", "\u0430", "\u0448"]
+    },
+    {
+      "id": "bootstrap-mechanism-2",
+      "kind": "mechanism",
+      "title": "Gear",
+      "routeX": 610,
+      "targetLetter": "\u0430",
+      "candidateLetters": ["\u0430", "\u0448", "\u043c"]
+    },
+    {
+      "id": "bootstrap-bridge-2",
+      "kind": "bridge",
+      "title": "Bridge",
+      "routeX": 700,
+      "targetLetter": "\u0448",
+      "candidateLetters": ["\u043c", "\u0448", "\u0430"]
+    },
+    {
+      "id": "bootstrap-slot-2",
+      "kind": "slot",
+      "title": "Slot",
+      "routeX": 790,
+      "targetLetter": "\u0430",
+      "candidateLetters": ["\u0448", "\u043c", "\u0430"]
+    },
+    {
+      "id": "bootstrap-door-3",
+      "kind": "door",
+      "title": "Door",
+      "routeX": 850,
+      "targetLetter": "\u043c",
+      "candidateLetters": ["\u0430", "\u0448", "\u043c"]
     }
   ]
 }

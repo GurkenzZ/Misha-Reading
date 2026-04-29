@@ -3,6 +3,7 @@ export type RunSessionState = "idle" | "running" | "blocked" | "complete";
 export interface RunSessionSnapshot {
   readonly state: RunSessionState;
   readonly obstacleIndex: number;
+  readonly solvedObstacleCount: number;
   readonly heroRouteX: number;
 }
 
@@ -19,6 +20,7 @@ export class RunSessionRuntime {
     return {
       state: this.state,
       obstacleIndex: this.obstacleIndex,
+      solvedObstacleCount: this.obstacleIndex,
       heroRouteX: this.heroRouteX
     };
   }

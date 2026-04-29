@@ -73,7 +73,7 @@ export class ObstacleOverlayScene extends Phaser.Scene {
       .setOrigin(0.5)
       .setDepth(31);
     this.add
-      .text(layout.center.x, layout.lineY, `Find: ${payload.targetLetter}`, {
+      .text(layout.center.x, layout.lineY, `\u041d\u0430\u0439\u0434\u0438: ${payload.targetLetter}`, {
         align: "center",
         color: "#566573",
         fontFamily: "Arial, sans-serif",

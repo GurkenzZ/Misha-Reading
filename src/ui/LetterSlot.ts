@@ -13,7 +13,7 @@ export class LetterSlot {
       .setStrokeStyle(5, 0x58636f, 1)
       .setDepth(32);
     this.label = scene.add
-      .text(center.x, center.y + 58, "slot", {
+      .text(center.x, center.y + 58, "\u0441\u043b\u043e\u0442", {
         color: "#64748b",
         fontFamily: "Arial, sans-serif",
         fontSize: "15px"

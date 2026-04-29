@@ -27,7 +27,8 @@ function isRouteObstacleContent(value: unknown): value is RouteObstacleContent {
     typeof value.routeX === "number" &&
     Number.isFinite(value.routeX) &&
     typeof value.targetLetter === "string" &&
-    isThreeStringArray(value.candidateLetters)
+    isThreeStringArray(value.candidateLetters) &&
+    value.candidateLetters.includes(value.targetLetter)
   );
 }
 

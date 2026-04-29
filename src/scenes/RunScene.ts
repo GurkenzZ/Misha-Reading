@@ -6,6 +6,7 @@ import { RunSessionRuntime } from "../state/runSession";
 import { ReadingRoute } from "../systems/readingRoute";
 import { RouteMotion } from "../systems/routeMotion";
 import { RunDebugPanel } from "../ui/RunDebugPanel";
+import { RunProgressPanel } from "../ui/RunProgressPanel";
 import { HeroView } from "../views/HeroView";
 import { ObstacleView } from "../views/ObstacleView";
 
@@ -18,7 +19,9 @@ export class RunScene extends Phaser.Scene {
   private motion: RouteMotion | null = null;
   private session: RunSessionRuntime | null = null;
   private debugPanel: RunDebugPanel | null = null;
+  private progressPanel: RunProgressPanel | null = null;
   private obstacles: readonly RouteObstacleContent[] = [];
+  private obstacleViews = new Map<string, ObstacleView>();
   private readonly handleObstacleSolved = (payload: ObstacleSolvedPayload): void => {
     if (this.session === null) {
       return;
@@ -31,8 +34,25 @@ export class RunScene extends Phaser.Scene {
       return;
     }
 
-    this.session.resolveCurrentObstacle(snapshot.heroRouteX);
-    this.debugPanel?.update(this.session.getSnapshot());
+    const continueRun = (): void => {
+      if (this.session === null) {
+        return;
+      }
+
+      this.session.resolveCurrentObstacle(snapshot.heroRouteX);
+      const nextSnapshot = this.session.getSnapshot();
+      this.progressPanel?.update(nextSnapshot.solvedObstacleCount);
+      this.debugPanel?.update(nextSnapshot);
+    };
+
+    const obstacleView = this.obstacleViews.get(currentObstacle.id);
+
+    if (obstacleView === undefined) {
+      continueRun();
+      return;
+    }
+
+    obstacleView.resolve(continueRun);
   };
 
   public constructor() {
@@ -66,7 +86,7 @@ export class RunScene extends Phaser.Scene {
     }
 
     this.obstacles = [...levelResult.level.obstacles].sort((left, right) => left.routeX - right.routeX);
-    ObstacleView.drawAll(this, route, this.obstacles);
+    this.obstacleViews = ObstacleView.drawAll(this, route, this.obstacles);
 
     this.add
       .text(32, 72, levelResult.level.title, {
@@ -86,6 +106,7 @@ export class RunScene extends Phaser.Scene {
       speedPixelsPerSecond: HERO_SPEED_PIXELS_PER_SECOND,
       obstacleStopDistance: OBSTACLE_STOP_DISTANCE
     });
+    this.progressPanel = new RunProgressPanel(this, width - 24, 22, this.obstacles.length);
 
     if (import.meta.env.DEV) {
       this.debugPanel = new RunDebugPanel(this, 16, height - 96);
@@ -112,6 +133,7 @@ export class RunScene extends Phaser.Scene {
         this.showObstacleOverlay(motionResult.blockedObstacleIndex);
       } else if (motionResult.completed) {
         this.session.complete(motionResult.routeX);
+        this.showCompleteScene();
       } else {
         this.session.moveHero(motionResult.routeX);
       }
@@ -173,6 +195,21 @@ export class RunScene extends Phaser.Scene {
       candidateLetters: obstacle.candidateLetters
     });
     this.scene.bringToTop("ObstacleOverlayScene");
+  }
+
+  private showCompleteScene(): void {
+    if (this.session === null) {
+      return;
+    }
+
+    const snapshot = this.session.getSnapshot();
+
+    this.time.delayedCall(260, () => {
+      this.scene.start("CompleteScene", {
+        solvedObstacleCount: snapshot.solvedObstacleCount,
+        totalObstacleCount: this.obstacles.length
+      });
+    });
   }
 
   private showDebugError(message: string): void {
