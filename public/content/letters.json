@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "letters": [
+    {
+      "id": "m",
+      "symbol": "м",
+      "soundHint": "м-м-м"
+    },
+    {
+      "id": "a",
+      "symbol": "а",
+      "soundHint": "а"
+    },
+    {
+      "id": "sha",
+      "symbol": "ш",
+      "soundHint": "ш-ш-ш"
+    }
+  ]
+}

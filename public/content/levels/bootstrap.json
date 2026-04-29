@@ -1,0 +1,21 @@
+{
+  "id": "bootstrap",
+  "title": "\u041f\u0435\u0440\u0432\u044b\u0435 \u0441\u043b\u043e\u0433\u0438",
+  "routeLabel": "\u0422\u0440\u043e\u043f\u0430 \u043a \u0441\u043b\u043e\u0432\u0443",
+  "targetLetters": ["\u043c", "\u0430", "\u0448"],
+  "words": ["\u043c\u0430", "\u0448\u0430", "\u043c\u0430\u0448\u0430"],
+  "obstacles": [
+    {
+      "id": "bootstrap-door",
+      "kind": "door",
+      "title": "Door",
+      "routeX": 520
+    },
+    {
+      "id": "bootstrap-slot",
+      "kind": "slot",
+      "title": "Letter slot",
+      "routeX": 760
+    }
+  ]
+}
